@@ -24,4 +24,11 @@ class Subject extends Model
     public static function getAllByLevelId($levelId){
         return Subject::where('level_id', $levelId)->get();
     }
+    public function topics(){
+        return $this->hasMany('App\Models\Topic');
+    }
+
+    public static function getSyubjectDetail($subject_id){
+        return Subject::where('id', $subject_id)->first();
+    }
 }

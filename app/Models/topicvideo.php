@@ -14,4 +14,12 @@ class topicvideo extends Model
     protected $fillable = [
         'topic_id', 'videoName', 'video_url'
     ];
+
+    public function topic(){
+        return $this->belongsTo('App\Models\Topic');
+    }
+
+    public static function getTopicVideos($topicId){
+        return topicvideo::where('topic_id', $topicId)->get();
+    }
 }

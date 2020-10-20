@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Level;
 use App\Models\Subject;
+use App\Models\Topic;
+use App\Models\topicvideo;
 use App\Models\Useroption;
 use App\Models\Usersubject;
 use Illuminate\Http\Request;
@@ -51,6 +53,27 @@ class subjectController extends Controller
             array_push($array, $arr);
         }
         return response()->json($array);
+    }
+
+    public function getTopicsAndVideos(Request $req){
+        $subject_id = $req['subjectId'];
+    $subjectDetail = Subject::getSyubjectDetail($subject_id);
+    $allTopics = Topic::getTopicBySubjectId($subject_id);
+
+    $array = [];
+    foreach($allTopics as $topic){
+        $topicDetail = topicvideo::getTopicVideos($topic->id);
+        foreach($topicDetail as $detail){
+            $filterDetail = [
+                'topic_name' => $topic->topicName,
+                'videoName' => $detail->videoName,
+                'videoUrl' => $detail->video_url
+            ];
+            array_push($array, $filterDetail);
+        }
+    }
+
+    return response()->json([$allTopics, $array, $subjectDetail]);
     }
 
     public function logout(Request $request)
