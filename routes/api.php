@@ -33,6 +33,7 @@ Route::get('subject', [subjectController::class,'subjects']);
     Route::get('user/detail', [subjectController::class,'userDetails']);
     Route::get('level/detail', [subjectController::class,'levels']);
     Route::get('subject/topics', [subjectController::class,'getTopicsAndVideos']);
+    Route::get('subject/register', [subjectController::class,'registerUserSubject']);
 
     Route::get('logout', [subjectController::class,'logout']);
     });

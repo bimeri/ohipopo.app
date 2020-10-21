@@ -27,11 +27,20 @@ class subjectController extends Controller
     function subjects(Request $req){
         $levelId = $req['levelId'];
         $subjects = Subject::getAllByLevelId($levelId);
-
         $level = Level::getLevelById($levelId);
        $levelName = $level->levelName;
        $type = $level->type->typeName;
        return response()->json([$subjects, "levelName" => $levelName, "typeName" => $type], 200);
+    }
+
+    function registerUserSubject(Request $req){
+        $data[] = $req['userSubjects'];
+        $rr = [];
+        foreach($data as $dat){
+            array_push($rr, $dat);
+        }
+        $user_id = auth()->user()->id;
+        return response()->json(["user id" => $user_id, $rr]);
     }
 
     function userSubjects(Request $req){
