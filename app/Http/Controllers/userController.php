@@ -14,7 +14,6 @@ use Auth;
 
 class userController extends Controller
 {
-    //
     public function __construct()
     {
     //    return $this->middleware('auth:api');
@@ -48,10 +47,10 @@ class userController extends Controller
         $credentials = request(['phoneNumber', 'password']);
         if(Auth::attempt($credentials)){
             $user = $request->user();
-            $tokenResult = $user->createToken('Personal Access Token');
+            $tokenResult = $user->createToken('PERSONAL_ACCESS_TOKEN');
             $token = $tokenResult->token;
             if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addWeeks(1);
+                $token->expires_at = Carbon::now()->addHours(1);
             $token->save();
             return response()->json([
                 'accessToken' => $tokenResult->accessToken,
@@ -111,7 +110,7 @@ class userController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'fail to save user!'
+                'message' => 'FAIL_TO_SAVE_USER'
             ], 401);
         }
     }
@@ -124,5 +123,4 @@ class userController extends Controller
     {
         return view('home');
     }
-
 }

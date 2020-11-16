@@ -24,9 +24,8 @@ class Usersubject extends Model
         return $query;
     }
 
-    public static function countAllUser($studentId, $subjectId){
-        return Usersubject::where('user_id', $studentId)
-                            ->where('subject_id', $subjectId)
+    public static function countAllUser($subjectId){
+        return Usersubject::where('subject_id', $subjectId)
                             ->count();
     }
 }

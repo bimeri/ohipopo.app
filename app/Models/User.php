@@ -47,10 +47,19 @@ class User extends Authenticatable
     public function usersubjects(){
         return $this->belongsToMany('App\Models\Usersubject');
     }
+    public function full_time_payments(){
+        return $this->hasMany('App\Models\Full_time_payment');
+    }
+    public function part_time_payments(){
+        return $this->hasMany('App\Models\Part_time_payment');
+    }
+
     // public function AuthAcessToken(){
     //     return $this->hasMany('App\Models\OauthAccessToken');
     // }
-
+    public function subjects(){
+        return $this->belongsToMany('App\Models\Subject');
+    }
     public static function getUserId($fname, $phone){
         $query = User::where('fullName', $fname)
                     ->where('phoneNumber', $phone)

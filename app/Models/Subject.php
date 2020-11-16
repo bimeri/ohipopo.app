@@ -15,7 +15,7 @@ class Subject extends Model
     ];
 
     public function level(){
-        return $this->belongsTo('App\Level');
+        return $this->belongsTo('App\Models\Level');
     }
     public function usersubjects(){
         return $this->belongsToMany('App\Models\Usersubject');
@@ -28,7 +28,10 @@ class Subject extends Model
         return $this->hasMany('App\Models\Topic');
     }
 
-    public static function getSyubjectDetail($subject_id){
+    public static function getSubjectDetail($subject_id){
         return Subject::where('id', $subject_id)->first();
+    }
+    public function users(){
+        return $this->belongsToMany('App\Models\User');
     }
 }

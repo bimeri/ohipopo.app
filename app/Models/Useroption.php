@@ -17,4 +17,8 @@ class Useroption extends Model
     public static function getUserDtail($uid){
         return Useroption::where('user_id', $uid)->first();
     }
+
+    public function level(){
+        return $this->belongsTo('App\Models\Level');
+    }
 }

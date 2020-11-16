@@ -9,6 +9,7 @@ use App\Models\topicvideo;
 use App\Models\Useroption;
 use App\Models\Usersubject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class subjectController extends Controller
 {
@@ -16,12 +17,6 @@ class subjectController extends Controller
     public function __construct()
     {
        return $this->middleware('auth:api');
-    }
-
-    function userDetails(Request $req){
-        $userId = $req['userId'];
-        $detail = Useroption::getUserDtail($userId);
-        return response()->json([$detail], 200);
     }
 
     function subjects(Request $req){
@@ -34,13 +29,17 @@ class subjectController extends Controller
     }
 
     function registerUserSubject(Request $req){
-        $data[] = $req['userSubjects'];
+        $data = $req['userSubjects'];
         $rr = [];
-        foreach($data as $dat){
+       $tt = array_map('intval', explode(',', $data));
+        foreach($tt as $dat){
+        $userSubject = new Usersubject();
+        $userSubject->subject_id = (int)$dat;
+        $userSubject->user_id = auth()->user()->id;
             array_push($rr, $dat);
+         $userSubject->save();
         }
-        $user_id = auth()->user()->id;
-        return response()->json(["user id" => $user_id, $rr]);
+        return response()->json([$rr, auth()->user()->id,"success" => "SUBJECT_SAVED_SUCCESSFULLY"]);
     }
 
     function userSubjects(Request $req){
@@ -49,7 +48,7 @@ class subjectController extends Controller
 
         $array = [];
         foreach($getSubjects as $subject){
-            $countUser = Usersubject::countAllUser($studentId, $subject->subject_id);
+            $countUser = Usersubject::countAllUser($subject->subject_id);
             $arr = [
                 'sub_id' => $subject->subject->id,
                 'name' => $subject->subject->name,
@@ -66,20 +65,24 @@ class subjectController extends Controller
 
     public function getTopicsAndVideos(Request $req){
         $subject_id = $req['subjectId'];
-    $subjectDetail = Subject::getSyubjectDetail($subject_id);
+    $subjectDetail = Subject::getSubjectDetail($subject_id);
     $allTopics = Topic::getTopicBySubjectId($subject_id);
 
     $array = [];
     foreach($allTopics as $topic){
-        $topicDetail = topicvideo::getTopicVideos($topic->id);
-        foreach($topicDetail as $detail){
+        $subarray = array();
+        $topicName = $topic->topicName;
+        $topicVideos = topicvideo::getTopicVideos($topic->id);
+        foreach($topicVideos as $topicVideo){
             $filterDetail = [
-                'topic_name' => $topic->topicName,
-                'videoName' => $detail->videoName,
-                'videoUrl' => $detail->video_url
+                'vId' => $topicVideo->id,
+                'videoName' => $topicVideo->videoName,
+                'videoUrl' => $topicVideo->video_url,
+                'totalVideo' => $topicVideos->count()
             ];
-            array_push($array, $filterDetail);
+            array_push($subarray, $filterDetail);
         }
+        array_push($array, ['topicName' => $topicName, 'topicVideo' => $subarray]);
     }
 
     return response()->json([$allTopics, $array, $subjectDetail]);
@@ -88,6 +91,7 @@ class subjectController extends Controller
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
+        DB::table('oauth_access_tokens')->where('user_id', auth()->user()->id)->delete();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);

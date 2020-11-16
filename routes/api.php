@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\userController;
 use App\Http\Controllers\subjectController;
+use App\Http\Controllers\paymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,8 +35,14 @@ Route::get('subject', [subjectController::class,'subjects']);
     Route::get('level/detail', [subjectController::class,'levels']);
     Route::get('subject/topics', [subjectController::class,'getTopicsAndVideos']);
     Route::get('subject/register', [subjectController::class,'registerUserSubject']);
+    Route::get('user/paymentDetal', [paymentController::class,'userPaymentDetails']);
+    Route::post('payment', [paymentController::class, 'payments']);
+    Route::post('check', [paymentController::class, 'checkPayment']);
+    Route::post('registerPayment', [paymentController::class, 'registerPayments']);
+
 
     Route::get('logout', [subjectController::class,'logout']);
     });
 });
+
 

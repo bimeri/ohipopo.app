@@ -28,5 +28,9 @@ class Level extends Model
     public static function getLevelById($levelId){
         return Level::where('id', $levelId)->first();
     }
+
+    public function Useroptions(){
+        return $this->hasMany('App\Models\Useroption');
+    }
 }
 
