@@ -23,7 +23,7 @@
         <nav class="">
             <div class="nav-wrapper orange">
                   <img src="{{ URL::asset('asset/logo/newLogo.png') }}" width="120" height="100" class="right logo-icon" id="dropbtn" style="margin-right:-24px !important;">
-                  <h6 class="right hide-on-med-and-down w3-small w3-padding" style="margin-top:0px">Hi, <b style="text-transform: uppercase">{{  Auth::user()->full_name}}</b></h6>
+                  <h6 class="right hide-on-med-and-down w3-small w3-padding" style="margin-top:0px">Hi, <b style="text-transform: uppercase">{{ Auth::user()->full_name }}</b></h6>
               <ul id="nav-mobile" class="hide-on-med-and-down" style="margin-left: 120px">
                 <li><a href="{{ route('admin.home') }}" class="name">Ohipopo Comprehensive Bilingual High School</a></li>
               </ul>
@@ -67,12 +67,13 @@
         </div>
       </li><hr style="margin-top: 20px !important; border-top:1px solid #dabc5c">
         <ul class="collapsible w3-ul navbar-fixed" style="margin-top:-15px">
+            <li><a class="orange-text center" href="{{ route('admin.home') }}" @if( Request::is('admin/home', 'admin/addSubject'))  style="background-color: #e5e9e8" @endif  onclick="load()">Home <i class="fa fa-home"></i></a></li>
             <li>
-                <div class="collapsible-header waves-effect waves-orange" onclick="classes()" @if(Request::is('admin/create/class')) style="background-color: #ade7d9" @endif><i class="fa fa-asterisk teal-text w3-small"></i> Manage Subjects &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="class"></i></div>
+                <div class="collapsible-header waves-effect waves-orange" onclick="classes()" @if(Request::is('admin/addTopic', 'admin/add/topic', 'admin/video', 'admin/video/add')) style="background-color: #ade7d9" @endif><i class="fa fa-asterisk teal-text w3-small"></i> Manage Subjects &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="class"></i></div>
                 <div class="collapsible-body">
-                    <ul class="w3-border w3-padding" style="background-color: #ece7d4">
-                        <li><a class="orange-text"  @if( Request::is('admin/create'))  style="background-color: #e5e9e8" @endif  onclick="load()">Add Topics</a></li>
-                        <li><a href="" class="orange-text"  @if( Request::is('admin/create/subclass'))  style="background-color: #e9e8e5" @endif  onclick="load()">Add Videos</a></li>
+                    <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
+                        <li><a class="orange-text" href="{{ route('topic.add') }}"  @if( Request::is('admin/addTopic', 'admin/add/topic'))  style="background-color: #e5e9e8" @endif  onclick="load()">Add Topics</a></li>
+                        <li><a href="{{ route('admin.addVideos') }}" class="orange-text"  @if( Request::is('admin/video', 'admin/video/add'))  style="background-color: #e9e8e5" @endif  onclick="load()">Add Videos</a></li>
                     </ul>
                 </div>
             </li>
@@ -80,7 +81,7 @@
             <li>
                 <div class="collapsible-header waves-effect waves-orange" onclick="subjects()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif> &nbsp;<i class="fa fa-graduation-cap teal-text w3-small"></i> Manage Students &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="subject"></i></div>
                 <div class="collapsible-body">
-                    <ul class="w3-border w3-padding" style="background-color: #ece7d4">
+                    <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
                         <li><a href="" class="orange-text w3-small" @if(Request::is('admin/subject')) style="background-color: #e9e8e5" @endif  onclick="load()"> Enroll Students</a></li>
                         <li><a href="" class="orange-text"  @if(Request::is('admin/subject/all')) style="background-color: #e9e8e5" @endif  onclick="load()">Check student status</a></li>
                     </ul>
@@ -89,7 +90,7 @@
             <li>
                 <div class="collapsible-header waves-effect waves-orange" onclick="subjects()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif> &nbsp;<i class="fa fa-user teal-text w3-small"></i> Manage Teacher &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="class"></i></div>
                 <div class="collapsible-body">
-                    <ul class="w3-border w3-padding" style="background-color: #ece7d4">
+                    <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
                         <li><a href="" class="orange-text w3-small" @if(Request::is('admin/subject')) style="background-color: #e9e8e5" @endif  onclick="load()"> Add Students</a></li>
                         <li><a href="" class="orange-text"  @if(Request::is('admin/subject/all')) style="background-color: #e9e8e5" @endif  onclick="load()">Teacher Subject</a></li>
                     </ul>
@@ -176,5 +177,66 @@
               }
             @endif
           </script>
+          <script>
+            $('#hides').hide();
+           function getSubjects(){
+               $('#hides').hide();
+               $('#subj').empty();
+               $('#message').empty();
+               var levelId = document.getElementById('level').value;
+               $.ajax({
+                   type: "post",
+                   url: "{{ route('class.get.subject') }}",
+                   dataType: 'json',
+                   data: {
+                       '_token': '{{ csrf_token() }}',
+                       info: levelId
+                   },
+                   success: function(res){
+                       console.log('the response is', res);
+                       if(res.length > 0) {
+                       $('#subj').append(res);
+                       } else {
+                           $('#message').append('<h5 class="red-text center">The selected class has no registered subject, please go to home page and add more subjects to the class. <a href="{{ route("admin.home") }}" class="blue-text">click here..</a></h5>')
+                       $('#subj').append("<option value=''>Class has no subjects</option>");
+                       }
+                   },
+                   error: function(error){
+                       console.log("some error occur", error);
+                   }
+               });
+           }
+           function showInput(){
+               $('#hides').show();
+           }
+
+           function selectTopics(){
+               $('#topics').empty();
+               $('#message').empty();
+               var subjectId = document.getElementById('subj').value;
+               $.ajax({
+                   type: "post",
+                   url: "{{ route('subject.getTopic') }}",
+                   dataType: 'json',
+                   data: {
+                       '_token': '{{ csrf_token() }}',
+                       info: subjectId
+                   },
+                   success: function(res){
+                       console.log('the response is', res);
+                       if(res.length > 0) {
+                       $('#topics').append(res);
+                       } else {
+                           $('#message').append('<h5 class="red-text center">The selected subject has no registered topic, add topic(s) first</h5>')
+                       $('#topics').empty();
+                       $('#topics').append("<option value=''>Class has no subjects</option>");
+                       }
+                   },
+                   error: function(error){
+                       console.log("some error occur", error);
+                   }
+               });
+           }
+       </script>
     </body>
 </html>

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Level;
+use App\Models\likedislike;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
-use App\Models\Useroption;
 use App\Models\Usersubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -74,11 +74,15 @@ class subjectController extends Controller
         $topicName = $topic->topicName;
         $topicVideos = topicvideo::getTopicVideos($topic->id);
         foreach($topicVideos as $topicVideo){
+            $likes = likedislike::countLike($topicVideo->id);
+            $dislikelikes = likedislike::countDislike($topicVideo->id);
             $filterDetail = [
                 'vId' => $topicVideo->id,
                 'videoName' => $topicVideo->videoName,
                 'videoUrl' => $topicVideo->video_url,
-                'totalVideo' => $topicVideos->count()
+                'totalVideo' => $topicVideos->count(),
+                'likes' => $likes,
+                'dislikes' => $dislikelikes,
             ];
             array_push($subarray, $filterDetail);
         }
@@ -87,6 +91,48 @@ class subjectController extends Controller
 
     return response()->json([$allTopics, $array, $subjectDetail]);
     }
+
+    public function likeVideo(Request $req){
+        $videoId = $req['videoId'];
+        $status = $req['value'];
+        $useId = auth()->user()->id;
+        if(likedislike::where('user_id', $useId)->where('topicvideo_id', $videoId)->exists()){
+            if($status == 'like'){
+                likedislike::where('user_id', $useId)
+                ->where('topicvideo_id', $videoId)
+                ->update([ 'like' => 1, 'dislike' => 0 ]);
+                return response()->json('UPDATED');
+            } else {
+                likedislike::where('user_id', $useId)
+                ->where('topicvideo_id', $videoId)
+                ->update([ 'like' => 0, 'dislike' => 1 ]);
+                return response()->json('UPDATED');
+            }
+
+        } else {
+            $topicVideo = new likedislike();
+            $topicVideo->user_id = $useId;
+            $topicVideo->topicvideo_id = $videoId;
+            if($status == 'like'){
+                $topicVideo->like = 1;
+                $topicVideo->dislike = 0;
+            } else {
+                $topicVideo->like = 0;
+                $topicVideo->dislike = 1;
+            }
+
+            $topicVideo->save();
+            return response()->json('SAVED', 200);
+        }
+    }
+
+    public function countLike(Request $req){
+        $video_id = $req['videoId'];
+        $countLike = likedislike::countLike($video_id);
+        $countDislike = likedislike::countDislike($video_id);
+        return response()->json(['like' => $countLike, 'dislike' => $countDislike]);
+    }
+
 
     public function logout(Request $request)
     {

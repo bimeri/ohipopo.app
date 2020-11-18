@@ -11,7 +11,7 @@ class Subject extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'level_id', 'name', 'author', 'topics', 'url'
+        'level_id', 'name', 'author', 'topic', 'url', 'logo'
     ];
 
     public function level(){
@@ -34,4 +34,8 @@ class Subject extends Model
     public function users(){
         return $this->belongsToMany('App\Models\User');
     }
+
+    public static function getTenSubject(){
+        return Subject::latest()->take(7)->get();
+     }
 }

@@ -53,6 +53,9 @@ class User extends Authenticatable
     public function part_time_payments(){
         return $this->hasMany('App\Models\Part_time_payment');
     }
+    public function likedislikes(){
+        return $this->hasMany('App\Models\Likedislike');
+    }
 
     // public function AuthAcessToken(){
     //     return $this->hasMany('App\Models\OauthAccessToken');

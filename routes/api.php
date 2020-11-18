@@ -35,6 +35,8 @@ Route::get('subject', [subjectController::class,'subjects']);
     Route::get('level/detail', [subjectController::class,'levels']);
     Route::get('subject/topics', [subjectController::class,'getTopicsAndVideos']);
     Route::get('subject/register', [subjectController::class,'registerUserSubject']);
+    Route::post('video/like', [subjectController::class,'likeVideo']);
+    Route::post('count/like', [subjectController::class,'countLike']);
     Route::get('user/paymentDetal', [paymentController::class,'userPaymentDetails']);
     Route::post('payment', [paymentController::class, 'payments']);
     Route::post('check', [paymentController::class, 'checkPayment']);

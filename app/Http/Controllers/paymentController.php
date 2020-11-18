@@ -92,7 +92,8 @@ class paymentController extends Controller
                     // Payment failed
                     return "PAYMENT_FAIL";
                 }
-            } else {
+            }
+            else {
                 return "TRANSACTION_IN_PROGRESS";
             }
     }
@@ -103,11 +104,10 @@ class paymentController extends Controller
         $option = Useroption::where('user_id', $userId)->first();
         if($option->level->type->typeName == 'partTime'){
             $next_date = date('d/m/Y', strtotime("+30 days"));
-            $amount = 1;
-        }
-        else {
+            $amount = 800;
+        } else {
         $next_date = date('d/m/Y', strtotime("+12 months"));
-        $amount = 2;
+        $amount = 10000;
         }
         DB::table('useroptions')->where('user_id', $userId)->update([
             'amount' => $amount,
