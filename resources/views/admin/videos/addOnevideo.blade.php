@@ -13,12 +13,12 @@
 @section('content')
 <div class="row">
     <div class="col s12 m10 offset-m1 w3-border w3-padding radius white w3-border-amber">
-        <h5 class="center">Adding video to: <b>{{ $subject->name }}</b> under the  topic: <b>{{ $topicName->topic->topicName }}</b></h5>
+        <h5 class="center">Adding video to: <b>{{ $subject->name }}</b></h5>
         <br>
         <div class="row">
             <form action="{{ route('video.add_one') }}" method="post">
                 @csrf
-                <input type="hidden" name="topicId" value="{{  $topicName->topic_id }}">
+                <input type="hidden" name="topicId" value="{{  $topicId }}">
                 <div class="input-field col s12 m2 offset-m2">
                     <label for="vname">Video name</label>
                     <input type="text" name="vname" class="validate" />

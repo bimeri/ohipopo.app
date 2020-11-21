@@ -11,6 +11,7 @@ use App\Models\Usersubject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Exception;
 
 class userController extends Controller
 {
@@ -72,8 +73,8 @@ class userController extends Controller
     {
         $request->validate([
             'fullName' => 'required|string',
-            'phoneNumber' => 'required|string',
-            // 'email' => 'required|string|email|unique:users',
+            'phoneNumber' => 'required|string|unique:App\Models\User,phoneNumber',
+            'email' => 'required|string|email|unique:App\Models\User,email',
             'password' => 'required|string'
         ]);
         //requesting the data
@@ -93,9 +94,9 @@ class userController extends Controller
         $user->date_of_birth = $dob;
         $user->password = bcrypt($password);
         $user->status = 0;
-       $saveUser = $user->save();
 
-        if($saveUser){
+       try{
+        $user->save();
             $userId = User::getUserId($fname, $phone);
             $userInfo = new Useroption();
 
@@ -107,10 +108,10 @@ class userController extends Controller
             return response()->json([
                 'message' => 'Successfully created user!'
             ], 201);
-        }
-        else{
+
+        } catch(Exception $e){
             return response()->json([
-                'message' => 'FAIL_TO_SAVE_USER'
+                'message' => 'PHONE_EXIST'
             ], 401);
         }
     }

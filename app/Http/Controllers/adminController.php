@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
+use Exception;
 
 class adminController extends Controller
 {
@@ -50,17 +51,17 @@ class adminController extends Controller
         $subjects->topic = $topic;
         $subjects->url = $url;
         $subjects->logo = $filename;
-
+{
+}
+        try{
             $subjects->save();
-
-            if($subjects){
             $message = array('message' => 'Subject save successfully', 'alert-type'=> 'success');
             return redirect()->back()->with($message);
+            }catch(Exception $e){
+                 //if email or phone exist before in db redirect with error messages
+                 $message = array('message' => 'Fail to save the subject. It exist already to the class', 'alert-type'=> 'error');
+                 return redirect()->back()->with($message);
             }
-             else{
-                $message = array('message' => 'Fail to save, the subejct exist already', 'alert-type'=> 'error');
-                return redirect()->back()->with($message);
-             }
         }
 
         public function editSubject(Request $req){
@@ -200,8 +201,9 @@ class adminController extends Controller
         $topicId = $req['topicId'];
         $data['subject'] = Subject::getSubjectDetail($subjectId);
         $topicvideos = topicvideo::getTopicVideos($topicId);
-        $data['topicName'] = topicvideo::getTopicVideos($topicId)->first();
+        $data['video'] = topicvideo::where('topic_id', $topicId)->first();
         $data['topicvideos'] =$topicvideos;
+        $data['topicId'] =$topicId;
         $data['count'] = $topicvideos->count();
             return view('admin.videos.addOnevideo')->with($data);
     }
@@ -258,7 +260,7 @@ class adminController extends Controller
         $videoId = $req['videoId'];
         $delete = topicvideo::where('id', $videoId)->delete();
         if($delete){
-            $message = array('message' => 'Video has been deleted!', 'alert-type' => 'success');
+            $message = array('message' => 'Video has been deleted!', 'alert-type' => 'info');
             return redirect()->back()->with($message);
         } else {
             $message = array('message' => 'Fail to delete video', 'alert-type' => 'error');

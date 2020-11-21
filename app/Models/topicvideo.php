@@ -23,6 +23,10 @@ class topicvideo extends Model
         return $this->hasMany('App\Models\Likedislike');
     }
 
+    public function views(){
+        return $this->hasMany('App\Models\View');
+    }
+
     public static function getTopicVideos($topicId){
         return topicvideo::where('topic_id', $topicId)->get();
     }

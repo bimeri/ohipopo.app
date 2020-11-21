@@ -56,6 +56,9 @@ class User extends Authenticatable
     public function likedislikes(){
         return $this->hasMany('App\Models\Likedislike');
     }
+    public function views(){
+        return $this->hasMany('App\Models\View');
+    }
 
     // public function AuthAcessToken(){
     //     return $this->hasMany('App\Models\OauthAccessToken');

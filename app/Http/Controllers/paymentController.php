@@ -22,12 +22,12 @@ class paymentController extends Controller
 
     public function payments(Request $req){
         // $data = $req->input();
-        $money = 0;
+        $money = 1;
         $option = Useroption::where('user_id', auth()->user()->id)->first();
         if($option->level->type->typeName == 'partTime'){
             $money = 1;
         } else {
-            $money = 2;
+            $money = 1;
         }
 
         $phoneNumber = $req['phoneNumber'];
@@ -103,18 +103,21 @@ class paymentController extends Controller
         $phoneNumber = $req['phoneNumber'];
         $option = Useroption::where('user_id', $userId)->first();
         if($option->level->type->typeName == 'partTime'){
-            $next_date = date('d/m/Y', strtotime("+30 days"));
-            $amount = 800;
+            $date = time() + 2592000;
+            $next_date = date('yy-M-d h:m:s', strtotime("+30 days"));
+            $amount = 1;
         } else {
-        $next_date = date('d/m/Y', strtotime("+12 months"));
-        $amount = 10000;
+            $date = time() + 2592000*12;
+            $next_date = date('yy-M-d h:m:s', strtotime("+12 months"));
+            $amount = 1;
         }
         DB::table('useroptions')->where('user_id', $userId)->update([
             'amount' => $amount,
             'paid_amount' => $amount,
             'balance' => 0,
             'amount' => $amount,
-            'deadLine' => $next_date
+            'deadLine' => $date,
+            'formate_deadline' => $next_date
         ]);
          //registring part time user
         if($option->level->type->typeName == 'partTime'){
@@ -122,9 +125,10 @@ class paymentController extends Controller
             $partime->user_id = $userId;
             $partime->amount = $amount;
             $partime->phoneNumber = $phoneNumber;
-            $partime->paymentDate = date('d/m/Y', strtotime('today'));
+            $partime->paymentDate = date('yy-M-d h:m:s', strtotime('today'));
             $partime->save();
-            return response()->json('DATA_SAVED');
+            $userDetail = Useroption::where('user_id', auth()->user()->id)->first();
+            return response()->json($userDetail);
         }
 
         // full time students
@@ -134,9 +138,10 @@ class paymentController extends Controller
             $fulltime->year = date('Y', strtotime('today'));
             $fulltime->phoneNumber = $phoneNumber;
             $fulltime->amount = $amount;
-            $fulltime->paymentMonths = date('m/Y', strtotime('today'));
+            $fulltime->paymentMonths = date('yy-M-d h:m:s', strtotime('today'));
             $fulltime->save();
-            return response()->json('DATA_SAVED');
+            $userDetail = Useroption::where('user_id', auth()->user()->id)->first();
+            return response()->json($userDetail);
         }
         return response()->json();
     }

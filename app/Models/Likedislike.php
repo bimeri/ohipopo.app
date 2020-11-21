@@ -21,9 +21,9 @@ class Likedislike extends Model
     }
 
     public static function countLike($topicVideo_id){
-        return likedislike::where('topicvideo_id', $topicVideo_id)->where('like', 1)->count();
+        return Likedislike::where('topicvideo_id', $topicVideo_id)->where('like', 1)->count();
     }
     public static function countDislike($topicVideo_id){
-        return likedislike::where('topicvideo_id', $topicVideo_id)->where('dislike', 1)->count();
+        return Likedislike::where('topicvideo_id', $topicVideo_id)->where('dislike', 1)->count();
     }
 }

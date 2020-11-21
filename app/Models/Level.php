@@ -25,6 +25,10 @@ class Level extends Model
         return $this->hasMany('App\Models\Suject');
     }
 
+    public function views(){
+        return $this->hasMany('App\Models\View');
+    }
+
     public static function getLevelById($levelId){
         return Level::where('id', $levelId)->first();
     }

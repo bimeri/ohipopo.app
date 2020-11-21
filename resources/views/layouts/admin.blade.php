@@ -181,6 +181,7 @@
             $('#hides').hide();
            function getSubjects(){
                $('#hides').hide();
+               $('#menu').show();
                $('#subj').empty();
                $('#message').empty();
                var levelId = document.getElementById('level').value;
@@ -200,8 +201,10 @@
                            $('#message').append('<h5 class="red-text center">The selected class has no registered subject, please go to home page and add more subjects to the class. <a href="{{ route("admin.home") }}" class="blue-text">click here..</a></h5>')
                        $('#subj').append("<option value=''>Class has no subjects</option>");
                        }
+                        $('#menu').hide();
                    },
                    error: function(error){
+                        $('#menu').hide();
                        console.log("some error occur", error);
                    }
                });
@@ -211,6 +214,7 @@
            }
 
            function selectTopics(){
+              $('#menu').show();
                $('#topics').empty();
                $('#message').empty();
                var subjectId = document.getElementById('subj').value;
@@ -229,10 +233,12 @@
                        } else {
                            $('#message').append('<h5 class="red-text center">The selected subject has no registered topic, add topic(s) first</h5>')
                        $('#topics').empty();
-                       $('#topics').append("<option value=''>Class has no subjects</option>");
+                       $('#topics').append("<option value=''>Subject has no topic</option>");
                        }
+                        $('#menu').hide();
                    },
                    error: function(error){
+                        $('#menu').hide();
                        console.log("some error occur", error);
                    }
                });

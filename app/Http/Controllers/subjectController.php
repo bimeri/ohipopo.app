@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Level;
-use App\Models\likedislike;
+use App\Models\Likedislike;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
@@ -74,8 +74,8 @@ class subjectController extends Controller
         $topicName = $topic->topicName;
         $topicVideos = topicvideo::getTopicVideos($topic->id);
         foreach($topicVideos as $topicVideo){
-            $likes = likedislike::countLike($topicVideo->id);
-            $dislikelikes = likedislike::countDislike($topicVideo->id);
+            $likes = Likedislike::countLike($topicVideo->id);
+            $dislikelikes = Likedislike::countDislike($topicVideo->id);
             $filterDetail = [
                 'vId' => $topicVideo->id,
                 'videoName' => $topicVideo->videoName,
@@ -96,21 +96,21 @@ class subjectController extends Controller
         $videoId = $req['videoId'];
         $status = $req['value'];
         $useId = auth()->user()->id;
-        if(likedislike::where('user_id', $useId)->where('topicvideo_id', $videoId)->exists()){
+        if(Likedislike::where('user_id', $useId)->where('topicvideo_id', $videoId)->exists()){
             if($status == 'like'){
-                likedislike::where('user_id', $useId)
+                Likedislike::where('user_id', $useId)
                 ->where('topicvideo_id', $videoId)
                 ->update([ 'like' => 1, 'dislike' => 0 ]);
                 return response()->json('UPDATED');
             } else {
-                likedislike::where('user_id', $useId)
+                Likedislike::where('user_id', $useId)
                 ->where('topicvideo_id', $videoId)
                 ->update([ 'like' => 0, 'dislike' => 1 ]);
                 return response()->json('UPDATED');
             }
 
         } else {
-            $topicVideo = new likedislike();
+            $topicVideo = new Likedislike();
             $topicVideo->user_id = $useId;
             $topicVideo->topicvideo_id = $videoId;
             if($status == 'like'){
@@ -128,8 +128,8 @@ class subjectController extends Controller
 
     public function countLike(Request $req){
         $video_id = $req['videoId'];
-        $countLike = likedislike::countLike($video_id);
-        $countDislike = likedislike::countDislike($video_id);
+        $countLike = Likedislike::countLike($video_id);
+        $countDislike = Likedislike::countDislike($video_id);
         return response()->json(['like' => $countLike, 'dislike' => $countDislike]);
     }
 
