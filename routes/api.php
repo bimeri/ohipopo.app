@@ -16,18 +16,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::get('types/detail', [userController::class, 'types']);
 Route::get('level/detail', [userController::class, 'levels']);
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [userController::class,'login'])->name('login');
     Route::post('register', [userController::class, 'register']);
-
 Route::group(['middleware' => 'auth:api'], function() {
 Route::get('subject', [subjectController::class,'subjects']);
     Route::get('user/subject', [subjectController::class,'userSubjects']);
@@ -37,6 +33,7 @@ Route::get('subject', [subjectController::class,'subjects']);
     Route::get('subject/register', [subjectController::class,'registerUserSubject']);
     Route::post('video/like', [subjectController::class,'likeVideo']);
     Route::post('count/like', [subjectController::class,'countLike']);
+    Route::post('count/video', [subjectController::class,'countWatchVideo']);
     Route::get('user/paymentDetal', [paymentController::class,'userPaymentDetails']);
     Route::post('payment', [paymentController::class, 'payments']);
     Route::post('check', [paymentController::class, 'checkPayment']);

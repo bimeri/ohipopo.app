@@ -22,12 +22,12 @@ class paymentController extends Controller
 
     public function payments(Request $req){
         // $data = $req->input();
-        $money = 1;
+        $money = 800;
         $option = Useroption::where('user_id', auth()->user()->id)->first();
         if($option->level->type->typeName == 'partTime'){
-            $money = 1;
+            $money = 800;
         } else {
-            $money = 1;
+            $money = 10000;
         }
 
         $phoneNumber = $req['phoneNumber'];
@@ -105,11 +105,11 @@ class paymentController extends Controller
         if($option->level->type->typeName == 'partTime'){
             $date = time() + 2592000;
             $next_date = date('yy-M-d h:m:s', strtotime("+30 days"));
-            $amount = 1;
+            $amount = 800;
         } else {
             $date = time() + 2592000*12;
             $next_date = date('yy-M-d h:m:s', strtotime("+12 months"));
-            $amount = 1;
+            $amount = 10000;
         }
         DB::table('useroptions')->where('user_id', $userId)->update([
             'amount' => $amount,

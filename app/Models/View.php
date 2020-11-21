@@ -25,4 +25,8 @@ class View extends Model
     public function video(){
         return $this->belongsTo('App\Models\Topicvideo');
     }
+
+    public static function countSubjectvideoWatched($videoId){
+        return View::where('video_id', $videoId)->count();
+    }
 }

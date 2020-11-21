@@ -7,7 +7,9 @@ use App\Models\Likedislike;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
+use App\Models\Useroption;
 use App\Models\Usersubject;
+use App\Models\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -76,6 +78,7 @@ class subjectController extends Controller
         foreach($topicVideos as $topicVideo){
             $likes = Likedislike::countLike($topicVideo->id);
             $dislikelikes = Likedislike::countDislike($topicVideo->id);
+            $countVideo = View::countSubjectvideoWatched($topicVideo->id);
             $filterDetail = [
                 'vId' => $topicVideo->id,
                 'videoName' => $topicVideo->videoName,
@@ -83,6 +86,7 @@ class subjectController extends Controller
                 'totalVideo' => $topicVideos->count(),
                 'likes' => $likes,
                 'dislikes' => $dislikelikes,
+                'totalView' => $countVideo,
             ];
             array_push($subarray, $filterDetail);
         }
@@ -131,6 +135,21 @@ class subjectController extends Controller
         $countLike = Likedislike::countLike($video_id);
         $countDislike = Likedislike::countDislike($video_id);
         return response()->json(['like' => $countLike, 'dislike' => $countDislike]);
+    }
+
+    public function countWatchVideo(Request $req){
+        $video_id = $req['videoId'];
+        $userId = auth()->user()->id;
+        $option = Useroption::where('user_id', $userId)->first();
+        $levelId = $option->level_id;
+        $videoId = $video_id;
+        $view = new View();
+        $view->user_id = $userId;
+        $view->level_id = $levelId;
+        $view->video_id = $videoId;
+        $view->save();
+        $count = View::countSubjectvideoWatched($video_id);
+        return $count;
     }
 
 
