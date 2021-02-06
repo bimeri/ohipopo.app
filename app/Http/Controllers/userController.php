@@ -10,7 +10,7 @@ use App\Models\Useroption;
 use App\Models\Usersubject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class userController extends Controller
@@ -40,23 +40,36 @@ class userController extends Controller
     }
 
     public function login(Request $request) {
+
         $request->validate([
-            'phoneNumber' => 'required',
+            'userName' => 'required',
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
-        $credentials = request(['phoneNumber', 'password']);
-        if(Auth::attempt($credentials)){
+        $email = $request['userName'];
+        $password = $request['password'];
+
+        if($request['userId']) {
+            User::where('id', $request['userId'])->update(['isLogin' => 0]);
+        }
+
+        if(Auth::attempt(['userName' => $email, 'password' => $password, 'isLogin' => 1])){
+            return response()->json("IS_LOGGED_IN");
+        }
+
+        if(Auth::attempt(['userName' => $email, 'password' => $password, 'isLogin' => 0])){
             $user = $request->user();
             $tokenResult = $user->createToken('PERSONAL_ACCESS_TOKEN');
             $token = $tokenResult->token;
-            if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addHours(1);
+            if ($request->remember_me) {
+                $token->expires_at = Carbon::now()->addWeeks(1);
+            }
             $token->save();
+            User::where('id', auth()->user()->id)->update(['isLogin' => 1]);
             return response()->json([
                 'accessToken' => $tokenResult->accessToken,
                 'type' => 'Bearer',
-                'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
+                'expires_at' => Carbon::parse($tokenResult->token->expires_at),
                 ['userInfo' => auth()->user()],
                 ['userDetails' => Useroption::where('user_id', auth()->user()->id)->first()]
             ]);
@@ -73,13 +86,14 @@ class userController extends Controller
     {
         $request->validate([
             'fullName' => 'required|string',
-            'phoneNumber' => 'required|string|unique:App\Models\User,phoneNumber',
-            'email' => 'required|string|email|unique:App\Models\User,email',
+            'phoneNumber' => 'required|string',
+            'userName' => 'required|string|unique:App\Models\User,userName',
             'password' => 'required|string'
         ]);
         //requesting the data
         $fname = $request['fullName'];
         $phone = $request['phoneNumber'];
+        $uname = $request['userName'];
         $email = $request['email'];
         $level = $request['level'];
         $address = $request['address'];
@@ -89,6 +103,7 @@ class userController extends Controller
         $user = new User;
         $user->fullName = $fname;
         $user->phoneNumber = $phone;
+        $user->UserName = $uname;
         $user->email = $email;
         $user->address = $address;
         $user->date_of_birth = $dob;

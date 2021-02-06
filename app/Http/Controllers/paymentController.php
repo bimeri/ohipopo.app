@@ -25,7 +25,7 @@ class paymentController extends Controller
         $money = 800;
         $option = Useroption::where('user_id', auth()->user()->id)->first();
         if($option->level->type->typeName == 'partTime'){
-            $money = 800;
+            $money = 1;
         } else {
             $money = 10000;
         }
@@ -80,15 +80,17 @@ class paymentController extends Controller
             $json = curl_exec($ch);
             $jsonArry = json_decode($json, true);
             if (is_array($jsonArry) and array_key_exists('transaction', $jsonArry)) {
-                $transaction = $jsonArry['transaction'];
-                $status = $transaction['status'];
+                $status = $jsonArry['transaction']['status'];
                 if ($status == 1) {
                     // Successful payment
                     return "PAYMENT_SUCCESSFUL";
                 } elseif ($status == - 1) {
                     // Transaction cancelled
                     return "TRANSACTION_CANCIL";
-                } else {
+                } elseif($status == 0){
+                    return "ZERO_STATUS";
+                }
+                 else {
                     // Payment failed
                     return "PAYMENT_FAIL";
                 }

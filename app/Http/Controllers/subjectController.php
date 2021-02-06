@@ -7,6 +7,7 @@ use App\Models\Likedislike;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
+use App\Models\User;
 use App\Models\Useroption;
 use App\Models\Usersubject;
 use App\Models\View;
@@ -155,6 +156,7 @@ class subjectController extends Controller
 
     public function logout(Request $request)
     {
+        User::where('id', auth()->user()->id)->update(['isLogin' => 0]);
         $request->user()->token()->revoke();
         DB::table('oauth_access_tokens')->where('user_id', auth()->user()->id)->delete();
         return response()->json([
