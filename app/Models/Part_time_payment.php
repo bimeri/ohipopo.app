@@ -16,4 +16,8 @@ class Part_time_payment extends Model
     public function user(){
         return $this->belongsTo('App\Models\User');
     }
+
+    public static function getUserPaidDetail($userid){
+        return Part_time_payment::where('user_id', $userid)->get();
+    }
 }

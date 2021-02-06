@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Full_time_payment;
 use App\Models\Level;
 use App\Models\Likedislike;
+use App\Models\Part_time_payment;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\topicvideo;
@@ -153,6 +155,30 @@ class subjectController extends Controller
         return $count;
     }
 
+    public function getTransactionDetail(Request $req){
+        $user = $req['userId'];
+        $statistics = [];
+        $useroption = Useroption::getUserDtail($user);
+        $type = $useroption->level->type->typeName;
+        if ($type == 'partTime'){
+            $statistics = Part_time_payment::getUserPaidDetail($user);
+        } else {
+            $statistics = Full_time_payment::getUserPaidDetail($user);
+        }
+        $array = [];
+        foreach($statistics as $statistic){
+            $filter = [
+                'id' => $statistic->id,
+                'amount' => $statistic->amount,
+                'phoneNumber' => $statistic->phoneNumber,
+                'paymentChannel' => $statistic->payment_channel,
+                'transactionId' => $statistic->transaction_id,
+                'paymentDate' => $statistic->created_at
+            ];
+            array_push($array, $filter);
+        }
+        return response()->json($array);
+    }
 
     public function logout(Request $request)
     {

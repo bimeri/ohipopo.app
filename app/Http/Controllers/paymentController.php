@@ -102,6 +102,7 @@ class paymentController extends Controller
 
     public function registerPayments(Request $req){
         $userId = auth()->user()->id;
+        $channel = $req['paymentChannel'];
         $phoneNumber = $req['phoneNumber'];
         $option = Useroption::where('user_id', $userId)->first();
         if($option->level->type->typeName == 'partTime'){
@@ -126,6 +127,7 @@ class paymentController extends Controller
             $partime = new Part_time_payment();
             $partime->user_id = $userId;
             $partime->amount = $amount;
+            $partime->payment_channel = $channel;
             $partime->phoneNumber = $phoneNumber;
             $partime->paymentDate = date('yy-M-d h:m:s', strtotime('today'));
             $partime->save();
@@ -140,6 +142,7 @@ class paymentController extends Controller
             $fulltime->year = date('Y', strtotime('today'));
             $fulltime->phoneNumber = $phoneNumber;
             $fulltime->amount = $amount;
+            $fulltime->payment_channel = $channel;
             $fulltime->paymentMonths = date('yy-M-d h:m:s', strtotime('today'));
             $fulltime->save();
             $userDetail = Useroption::where('user_id', auth()->user()->id)->first();
