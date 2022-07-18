@@ -126,7 +126,7 @@ setInterval(displayclock, 100);
                                }
 
                                 var mat = document.getElementById("dateField");
-  if (typeof mat !== 'undefined' && mat !== null) {
+                            if (typeof mat !== 'undefined' && mat !== null) {
                                document.getElementById("dateField").innerHTML = day + ' ' + dates + ' ' + month + ' ' + year + ' <br> ' + hrs + ':' + min + ':' +sec + ' ' + en;
                              }
                             }
@@ -183,90 +183,90 @@ setInterval(displayclock, 100);
     function change(){
         var v = document.getElementById("teacher");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function students(){
         var v = document.getElementById("student");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
-    function expenses(){
-        var v = document.getElementById("expense");
+    function teachers(){
+        var v = document.getElementById("teacher");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function settings(){
         var v = document.getElementById("setting");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function classes(){
         var v = document.getElementById("class");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function sectors(){
         var v = document.getElementById("sector");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function fees(){
         var v = document.getElementById("fee");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function results(){
         var v = document.getElementById("result");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function roles(){
         var v = document.getElementById("role");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }
     function subjects(){
         var v = document.getElementById("subject");
             if(v.classList.contains('fa-chevron-up')) {
-                v.className = "teal-text right fa fa-chevron-down w3-small";
+                v.className = "teal-text i fa fa-chevron-down w3-small";
             }
            else if(v.classList.contains('fa-chevron-down')) {
-                v.className = "teal-text right fa fa-chevron-up w3-small";
+                v.className = "teal-text i fa fa-chevron-up w3-small";
             }
     }

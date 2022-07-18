@@ -24,7 +24,7 @@
                     <th>Topics</th>
                     <th>Level</th>
                     <th>Icon</th>
-                    <th>Default video</th>
+                    <!-- <th>Default video</th> -->
                     <th colspan="3">Action</th>
                 </tr>
                 <tbody>
@@ -36,7 +36,7 @@
                             <td>{{ $subject->topic }}</td>
                             <td>{{ $subject->level->levelName }}</td>
                             <td><img src="{{ URL::asset(''.$subject->logo.'') }}" height="50" width="70"></td>
-                            <td> <video src="{{ $subject->url }}" height="50" width="70"></video> </td>
+                            <!-- <td> <video src="{{ $subject->url }}" height="50" width="70"></video> </td> -->
                             <td><button type="button" class="w3-btn blue blue-text lighten-4">View <i class="fa fa-eye"></i></button></td>
                             <td><button type="button" href="#modal{{ $key + 1 }}" class="modal-trigger w3-btn orange orange-text lighten-4">Edit <i class="fa fa-pen"></i></button></td>
                             <td>

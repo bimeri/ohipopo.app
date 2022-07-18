@@ -16,6 +16,10 @@
             .active-link{
                 background-color: #ccc !important;
             }
+            i.i{
+                margin-left: 80%;
+                position: absolute;
+            }
         </style>
         @yield('style')
     </head>
@@ -57,7 +61,7 @@
 
   <a href="#" data-target="slide-out" class="sidenav-trigger white-text w3-xlarge w3-padding" style="width:40px; margin-top: -60px; position: relative; z-index:10"><i class="fa fa-th"></i></a>
 
-  <ul id="slide-out" class="sidenav" style="transform: translateX(-105%); overflow-y: scroll;">
+  <ul id="slide-out" class="sidenav" style="transform: translateX(-105%); overflow-y: auto;">
     <li>
         <div class="">
           <div class="w3-margin-bottom">
@@ -65,11 +69,11 @@
               <h6 class="blue-text center">{{auth()->user()->email}}</h6>
             </div>
         </div>
-      </li><hr style="margin-top: 20px !important; border-top:1px solid #dabc5c">
-        <ul class="collapsible w3-ul navbar-fixed" style="margin-top:-15px">
+      </li><hr style="margin-top: 16px !important; border-top:1px solid #dabc5c">
+        <ul class="collapsible w3-ul navbar-fixed" style="margin-top:-20px">
             <li><a class="orange-text center" href="{{ route('admin.home') }}" @if( Request::is('admin/home', 'admin/addSubject'))  style="background-color: #e5e9e8" @endif  onclick="load()">Home <i class="fa fa-home"></i></a></li>
             <li>
-                <div class="collapsible-header waves-effect waves-orange" onclick="classes()" @if(Request::is('admin/addTopic', 'admin/add/topic', 'admin/video', 'admin/video/add')) style="background-color: #ade7d9" @endif><i class="fa fa-asterisk teal-text w3-small"></i> Manage Subjects &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="class"></i></div>
+                <div class="collapsible-header waves-effect waves-orange" onclick="classes()" @if(Request::is('admin/addTopic', 'admin/add/topic', 'admin/video', 'admin/video/add')) style="background-color: #ade7d9" @endif><i class="fa fa-asterisk teal-text w3-small"></i> Manage Subjects <i class="fa fa-chevron-down i w3-small" id="class"></i></div>
                 <div class="collapsible-body">
                     <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
                         <li><a class="orange-text" href="{{ route('topic.add') }}"  @if( Request::is('admin/addTopic', 'admin/add/topic'))  style="background-color: #e5e9e8" @endif  onclick="load()">Add Topics</a></li>
@@ -79,7 +83,7 @@
             </li>
 
             <li>
-                <div class="collapsible-header waves-effect waves-orange" onclick="subjects()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif> &nbsp;<i class="fa fa-graduation-cap teal-text w3-small"></i> Manage Students &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="subject"></i></div>
+                <div class="collapsible-header waves-effect waves-orange" onclick="subjects()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif><i class="fa fa-graduation-cap teal-text w3-small"></i> Manage Students <i class="fa fa-chevron-down i w3-small" id="subject"></i></div>
                 <div class="collapsible-body">
                     <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
                         <li><a href="" class="orange-text w3-small" @if(Request::is('admin/subject')) style="background-color: #e9e8e5" @endif  onclick="load()"> Enroll Students</a></li>
@@ -88,7 +92,7 @@
                 </div>
             </li>
             <li>
-                <div class="collapsible-header waves-effect waves-orange" onclick="subjects()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif> &nbsp;<i class="fa fa-user teal-text w3-small"></i> Manage Teacher &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-down right w3-small" id="class"></i></div>
+                <div class="collapsible-header waves-effect waves-orange" onclick="teachers()" @if(Request::is('admin/subject', 'admin/subject/all')) style="background-color: #e7d9ad" @endif><i class="fa fa-user teal-text w3-small"></i> Manage Teacher <i class="fa fa-chevron-down i w3-small" id="teacher"></i></div>
                 <div class="collapsible-body">
                     <ul class="w3-border w3-padding" style="background-color: #f8f8f8">
                         <li><a href="" class="orange-text w3-small" @if(Request::is('admin/subject')) style="background-color: #e9e8e5" @endif  onclick="load()"> Add Students</a></li>
@@ -126,13 +130,11 @@
             </div>
         </div>
 
-        <div class="footer_one">
-            <center>
+        <div class="footer_one center">
                 <p id="dateField" style="color: white;">&nbsp;</p>
                 <p style="text-align: center; color: #fff">&copy;Powered by
-                    <a  target="_blank" href ="#" style="color:#00ccff"> Bimeri. Ltd</a>
+                    <a  target="_blank" href ="#" style="color:#000"> Bimeri. Ltd</a>
                 </p>
-            </center>
         </div>
     <script src="{{ URL::asset('toaster.js') }}"></script>
     <script src="{{ URL::asset('materialize/js/materialize.min.js') }}"></script>

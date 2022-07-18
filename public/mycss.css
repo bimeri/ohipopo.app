@@ -13,16 +13,14 @@ body{
   overflow-x: hidden;
 }
 .footer_one{
-
-    position: relative;
-    width: 108%;
-    height: 100px;
+    width: 100%;
+    height: fit-content;
     color: #fff;
     background-color: #ff9800 !important;
-    right: 0px;
-    left: 0px;
-    margin:0px;
-    padding: 0px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: relative;
   }
 
   .moda {

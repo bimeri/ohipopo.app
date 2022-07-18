@@ -73,7 +73,7 @@
                         <th>Topics</th>
                         <th>Level</th>
                         <th>Icon</th>
-                        <th>Default video</th>
+                        {{-- <th>Default video</th> --}}
                     </tr>
                     <tbody>
                         @foreach (App\Models\Subject::getTenSubject() as $key => $subject)
@@ -84,7 +84,7 @@
                                 <td>{{ $subject->topic }}</td>
                                 <td>{{ $subject->level->levelName }}</td>
                                 <td><img src="{{ URL::asset(''.$subject->logo.'') }}" height="50" width="70"></td>
-                                <td> <video src="{{ $subject->url }}" height="50" width="70"></video> </td>
+                                {{-- <td> <video src="{{ $subject->url }}" height="50" width="70"></video> </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

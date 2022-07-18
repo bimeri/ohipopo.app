@@ -106,13 +106,11 @@
                 </div>
             </div>
 
-        <div class="footer_one">
-            <center>
-                <p id="dateField" style="color: white;">&nbsp;</p>
-                <p style="text-align: center; color: #fff">&copy;Powered by
-                    <a  target="_blank" href ="#" style="color:#00ccff"> Bimeri. Ltd</a>
-                </p>
-            </center>
+        <div class="footer_one center">
+            <p id="dateField" style="color: white;">&nbsp;</p>
+            <p style="text-align: center; color: #fff">&copy;Powered by
+                <a target="_blank" href ="#" style="color:#000"> Bimeri. Ltd</a>
+            </p>
         </div>
          <script src="{{ URL::asset('toaster.js') }}"></script>
          <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
